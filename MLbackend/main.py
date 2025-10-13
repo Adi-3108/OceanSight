@@ -6,11 +6,8 @@ import numpy as np
 from PIL import Image, ImageDraw
 import os, io, shutil
 
-# ==========================================================
-# Paths
-# ==========================================================
-ENHANCER_PATH = "model.h5"   # your trained CycleGAN Generator
-DETECTOR_PATH = "best.pt"             # your YOLO detection model
+ENHANCER_PATH = "model2.h5"   
+DETECTOR_PATH = "best.pt"         
 UPLOAD_FOLDER = "uploads"
 ENHANCED_FOLDER = "enhanced"
 RESULT_FOLDER = "results"
@@ -18,17 +15,11 @@ RESULT_FOLDER = "results"
 for folder in [UPLOAD_FOLDER, ENHANCED_FOLDER, RESULT_FOLDER]:
     os.makedirs(folder, exist_ok=True)
 
-# ==========================================================
-# Load Models
-# ==========================================================
 print(" Loading models...")
 enhancer = tf.keras.models.load_model(ENHANCER_PATH, compile=False)
 detector = YOLO(DETECTOR_PATH)
 print(" Models loaded successfully!")
 
-# ==========================================================
-# App
-# ==========================================================
 app = FastAPI(title="Image Enhancement + YOLOv8 Detection API")
 
 # Image Preprocess / Postprocess
@@ -47,34 +38,27 @@ def postprocess_image(pred):
 
 @app.get("/")
 def home():
-    return {"message": "🚀 API is running! Upload an image to /predict"}
+    return {"message": "API is running! Upload an image to /predict"}
 
-# ==========================================================
-# Main Endpoint
-# ==========================================================
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     try:
-        # Step 1: Save uploaded blurred image
+    
         upload_path = os.path.join(UPLOAD_FOLDER, file.filename)
         with open(upload_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        # Step 2: Enhance image
         with open(upload_path, "rb") as f:
             image_bytes = f.read()
         inp_tensor, _ = preprocess_image(image_bytes)
         enhanced_pred = enhancer.predict(inp_tensor)
         enhanced_img = postprocess_image(enhanced_pred)
 
-        # Save enhanced image
         enhanced_path = os.path.join(ENHANCED_FOLDER, f"enh_{file.filename}")
         enhanced_img.save(enhanced_path)
 
-        # Step 3: Run YOLO Detection
         results = detector.predict(source=enhanced_path, conf=0.25, verbose=False)
 
-        # Step 4: Draw detections
         img = Image.open(enhanced_path).convert("RGB")
         draw = ImageDraw.Draw(img)
 
