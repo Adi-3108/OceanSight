@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase.js";
 import Login from "./Login.jsx"; 
 import Dashboard from './Dashboard.jsx'; 
+import History from './History'; 
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function App() {
@@ -32,6 +33,14 @@ export default function App() {
           element={
             <ProtectedRoute user={user}>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute user={user}>
+              <History />
             </ProtectedRoute>
           }
         />
