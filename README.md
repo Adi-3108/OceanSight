@@ -121,7 +121,7 @@ VITE_FIREBASE_MEASUREMENT_ID=...
 4. Frontend expects JSON containing `original_url`, `enhanced_url`, `result_url` and records the response URLs in Firebase history.
 5. History view retrieves the prediction list from Firebase and renders cards with copyable links.
 
-> **Note**: The current backend returns a binary image, while the frontend expects JSON URLs. Aligning these contracts (either by adjusting the backend to upload artifacts and respond with URLs, or adapting the frontend to handle binary data) is required for full integration.
+
 
 ## Testing & Quality Checks
 - **Frontend**: `npm run lint`
