@@ -3,7 +3,13 @@
 ## Overview
 OceanSight is an AI-assisted platform for real-time underwater image enhancement and threat detection. It couples a TensorFlow-based enhancement model with a YOLOv8 detector, then exposes the pipeline through a FastAPI backend and a React/Vite frontend secured with Firebase Authentication and Realtime Database logging.
 
+## OceanSight Demo Image
 ![OceanSight processing demo](./Frontend/public/Demo.jpg)
+
+## Live Demo : [Oceansight](https://ocean-sight.onrender.com)
+
+
+
 
 ## Key Features
 - **Hybrid AI pipeline**: TensorFlow autoencoder-style enhancer followed by Ultralytics YOLOv8 object detection.
