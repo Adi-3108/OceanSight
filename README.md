@@ -129,5 +129,4 @@ VITE_FIREBASE_MEASUREMENT_ID=...
 - Add automated tests (unit + integration) for both backend and frontend.
 - Containerize services for simplified deployment.
 
-## License
-this project is licensed under the MIT license. 
+ 
